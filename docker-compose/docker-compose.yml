@@ -1,0 +1,32 @@
+version: '2'
+services:
+  nginx:
+     container_name: "nginx-app"
+     image: "nginx:app"
+     restart: always
+     ports:
+      - "8008:80"
+     volumes:
+      - ./nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+  app-1:
+    container_name: "app-1"
+    restart: always
+    image: "app:v1"
+    working_dir: /tmp
+    volumes:
+     - ./app1/:/home/apps/
+    expose:
+      - "8080"
+    depends_on:
+     - "nginx"  
+  app-2:
+    container_name: "app-2"
+    restart: always
+    image: "app:v1"
+    working_dir: /tmp
+    volumes:
+     - ./app2/:/home/apps/
+    expose:
+      - "8080"
+    depends_on:
+     - "nginx"
